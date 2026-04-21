@@ -14,25 +14,45 @@ VERSION = "v13.0 (Ultimate Edition)"
 
 st.markdown(f"""
     <style>
-    /* Tab 栏吸顶与背景防穿透 */
+    /* 1. Tab 栏背景与文字适配 */
     div[data-testid="stTabs"] [role="tablist"] {{
-        position: sticky; top: 0; z-index: 999; 
-        background-color: #FFFFFF; padding-top: 1rem; padding-bottom: 0.5rem;
-        border-bottom: 1px solid #F0F2F6;
+        position: sticky; 
+        top: 0; 
+        z-index: 999; 
+        background-color: var(--background-color); /* 自动适配背景 */
+        border-bottom: 1px solid var(--secondary-background-color); /* 自动适配边框线 */
+        padding-top: 1rem;
     }}
-    /* 画布预览窗口描边与阴影 */
+
+    div[data-testid="stTabs"] [data-baseweb="tab"] {{
+        background-color: transparent !important;
+        color: var(--text-color) !important; /* 自动适配文字颜色 */
+    }}
+
+    /* 2. 画布预览窗口适配 */
     [data-testid="stImage"] img {{ 
-        border: 1px solid #E2E8F0 !important; 
+        /* 这里的边框线改用透明度，黑白模式通吃 */
+        border: 1px solid rgba(128, 128, 128, 0.2) !important; 
         border-radius: 8px; 
-        box-shadow: 0 8px 24px rgba(0,0,0,0.06) !important; 
+        /* 阴影在黑暗模式下需要调深一点，或者使用 rgba */
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important; 
     }}
-    /* 优化顶部留白 */
+
+    /* 3. 布局与 Header 优化 */
     .block-container {{ padding-top: 1.5rem !important; }}
     header {{ visibility: hidden; height: 0px !important; }}
-    /* 按钮主题色 */
+
+    /* 4. 按钮主题色 (保持你的 HIGHLIGHT_COLOR) */
     div.stButton > button, div.stDownloadButton > button {{
-        background-color: {HIGHLIGHT_COLOR} !important; color: white !important;
-        border: none !important; border-radius: 6px; font-weight: bold;
+        background-color: {HIGHLIGHT_COLOR} !important; 
+        color: white !important;
+        border: none !important; 
+        border-radius: 6px; 
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }}
+    div.stButton > button:hover {{
+        opacity: 0.8;
     }}
     </style>
 """, unsafe_allow_html=True)
@@ -398,7 +418,7 @@ with tabs[0]:
     else:
         # 修复：主页空状态说明
         st.markdown(f"""
-        <div style='text-align: center; padding: 4rem 2rem; background: #fafafa; border-radius: 12px; border: 1px dashed #e2e8f0;'>
+        <div style='text-align: center; padding: 4rem 2rem; background-color: transparent; border-radius: 12px; border: 1px dashed #e2e8f0;'>
             <h1 style='color: #333; margin-bottom: 10px;'>👋 欢迎使用！</h1>
             <h4 style='color: #666; font-weight: 400;'>MyPosterAgent {VERSION} 已就绪，这是你的专属异形海报工作站。</h4>
             <p style='color: #888; margin-top: 20px; font-size: 14px;'>

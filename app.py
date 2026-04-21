@@ -416,75 +416,198 @@ with tabs[0]:
         buf = io.BytesIO(); res_img.save(buf, format="PNG")
         st.download_button("📥 导出高清 PNG", buf.getvalue(), f"Dean_Design_{tw}x{th}.png", use_container_width=True)
     else:
-        # 修复：主页空状态说明
-        st.markdown(f"""
-        <div style='text-align: center; padding: 4rem 2rem; background-color: transparent; border-radius: 12px; border: 1px dashed #e2e8f0;'>
-            <h1 style='color: #333; margin-bottom: 10px;'>👋 欢迎使用！</h1>
-            <h4 style='color: #666; font-weight: 400;'>MyPosterAgent {VERSION} 已就绪，这是你的专属异形海报工作站。</h4>
-            <p style='color: #888; margin-top: 20px; font-size: 14px;'>
-                👈 请在左侧面板上传主素材图开始创作。<br>
-                系统已接入 AI 全员面部追踪、智能明度取色与 Remove.bg 破框引擎。
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        # --- 首页欢迎区 (审美与稳定性的终极平衡) ---
+        
+        # 定义核心样式变量
+        card_bg = "var(--secondary-background-color)"
+        text_c = "var(--text-color)"
+        
+        # 使用单个 st.markdown，并用 HTML 的 <br> 代替 Python 的换行
+        # 这样 Markdown 渲染器就抓不到任何“空行”来把它变成代码块了
+        content = (
+            f"<div style='text-align: center; padding: 4rem 2rem; background-color: {card_bg}; "
+            f"border-radius: 20px; border: 1px solid rgba(128,128,128,0.1); "
+            f"box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin: 1rem 0; color: {text_c};'>"
+            f"<h1 style='font-size: 2.5rem; margin-bottom: 5px;'>✨ MyPosterAgent</h1>"
+            f"<p style='opacity: 0.8; font-size: 1.1rem;'>主理人：<b>Dean</b> | 当前版本：{VERSION}</p>"
+            f"<hr style='border: 0; border-top: 1px solid rgba(128,128,128,0.1); margin: 2rem 0;'>"
+            f"<div style='max-width: 400px; margin: 0 auto; text-align: left;'>"
+            f"<p>🚀 <b>这是你的专属异形海报工作站：</b></p>"
+            f"<ul style='opacity: 0.9; font-size: 0.95rem; line-height: 1.8;'>"
+            f"<li>已接入 AI 面部追踪与智能对比度取色</li>"
+            f"<li>支持 Remove.bg 动态破框视觉效果</li>"
+            f"<li>自定义字体持久化缓存系统</li>"
+            f"</ul></div>"
+            f"<div style='margin-top: 2.5rem; padding: 1rem 2rem; background-color: rgba(255, 75, 75, 0.1); "
+            f"border-radius: 12px; border: 1px solid rgba(255, 75, 75, 0.2); display: inline-block;'>"
+            f"<p style='margin: 0; color: {HIGHLIGHT_COLOR}; font-weight: bold;'>🔑 如需获取 API Key 请联系 Dean</p>"
+            f"</div>"
+            f"<p style='opacity: 0.5; margin-top: 2.5rem; font-size: 0.85rem;'>👈 准备好了吗？请在左侧侧边栏上传素材开始创作</p>"
+            f"</div>"
+        )
+        
+        st.markdown(content, unsafe_allow_html=True)
+
+# --- 定义通用卡片样式变量 (适配黑白模式) ---
+card_style = (
+    f"padding: 2.5rem; "
+    f"background-color: var(--secondary-background-color); "
+    f"border-radius: 18px; "
+    f"border: 1px solid rgba(128,128,128,0.1); "
+    f"box-shadow: 0 8px 20px rgba(0,0,0,0.05); "
+    f"margin-bottom: 2rem; "
+    f"color: var(--text-color);"
+)
 
 with tabs[1]:
-    st.header("🏠 MyPosterAgent 使用指南")
-    st.markdown("""
-    #### 🎨 核心流程
-    1. **画布构建**：支持自由定义像素或一键切换 16:9 / 9:16 等流媒体比例。
-    2. **AI 全员入框**：引擎会扫描画面中**所有正脸与侧脸**，计算最高和最低坐标跨度，自适应调整画面焦距，绝不遗漏任何人物。
-    3. **破框与遮罩**：确保目录下存在 `mask.png`。开启 AI 抠图后，调整破框线深度，让人物突破异形边界。
-    4. **智能排版**：点击**「🎯 自动高对比色」**，系统会扫描文字所在区域的像素均值，自动分配绝不翻车的极昼白或暗夜黑。
-    """)
+    # --- 使用指南卡片 ---
+    guide_content = (
+        f"<div style='{card_style}'>"
+        f"<h2 style='margin-top:0;'>🏠 MyPosterAgent 使用指南</h2>"
+        f"<hr style='border:0; border-top:1px solid rgba(128,128,128,0.1); margin:1.5rem 0;'>"
+        f"<div style='text-align: left; line-height: 1.8;'>"
+        f"<h4>🎨 核心流程</h4>"
+        f"<p>1. <b>画布构建</b>：支持自由定义像素或一键切换 16:9 / 9:16 等流媒体比例。</p>"
+        f"<p>2. <b>AI 全员入框</b>：引擎会扫描画面中<b>所有正脸与侧脸</b>，计算最高和最低坐标跨度，自适应调整画面焦距，绝不遗漏任何人物。</p>"
+        f"<p>3. <b>破框与遮罩</b>：确保目录下存在 <code>mask.png</code>。开启 AI 抠图后，调整破框线深度，让人物突破异形边界。</p>"
+        f"<p>4. <b>智能排版</b>：点击<b>「🎯 自动高对比色」</b>，系统会扫描文字所在区域的像素均值，自动分配绝不翻车的极昼白或暗夜黑。</p>"
+        f"</div></div>"
+    )
+    st.markdown(guide_content, unsafe_allow_html=True)
 
 with tabs[2]:
-    st.header("💎 API 引擎与额度追踪")
-    
-    # 构建 API 状态看板
-    st.markdown("#### ✂️ Remove.bg 算力池")
-    
+    # 1. 准备数据
     api_total = 50.0
     api_used = st.session_state.get('api_used', 12.5) 
     api_remain = api_total - api_used
-    
-    # 核心指标卡片
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.metric(label="当月总配额 (Credits)", value=f"{api_total:.1f}")
-    with c2:
-        st.metric(label="当前剩余可用", value=f"{api_remain:.1f}", delta=f"-{api_used:.1f} 额度已耗", delta_color="normal")
-    with c3:
-        st.metric(label="接口心跳延迟", value="24ms", delta="-2ms", delta_color="inverse")
-    
-    # 消耗水位线进度条
     consume_ratio = api_used / api_total
-    st.progress(consume_ratio, text=f"🚀 算力消耗水位线: {consume_ratio*100:.1f}%")
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("---")
-    
-    # 引擎健康度
-    st.markdown("#### 🔧 核心模块健康度")
-    # ✅ 这里补齐了结尾引号
-    st.info("""
-    - **Main Rendering Engine**：🟢 Healthy (v13.0)
-    - **HaarCascade Face Topology**：🟢 Healthy (双向特征捕获就绪)
-    - **Luminance Auto-Contrast**：🟢 Healthy
-    """)
 
-    st.markdown("---")
-    st.subheader("🛠️ 技术栈看板")
-    st.table({
-        "核心库": ["Streamlit", "Pillow (PIL)", "OpenCV", "NumPy"],
-        "用途": ["前端 UI 框架", "图像渲染引擎", "AI 视觉识别", "矩阵运算"],
-        "状态": ["Running", "Optimized", "Active", "Stable"]
-    })
+    # 2. 模拟原生 Metric 的 HTML (自定义颜色与排版)
+    # 这样它们就能 100% 呆在 div 容器里
+    metrics_html = f"""
+    <div style="display: flex; justify-content: space-between; margin: 2rem 0; text-align: left;">
+        <div style="flex: 1;">
+            <p style="margin:0; font-size: 0.9rem; opacity: 0.7;">当月总配额</p>
+            <h2 style="margin:0; font-size: 1.8rem;">{api_total:.1f}</h2>
+        </div>
+        <div style="flex: 1; border-left: 1px solid rgba(128,128,128,0.1); padding-left: 20px;">
+            <p style="margin:0; font-size: 0.9rem; opacity: 0.7;">当前剩余可用</p>
+            <h2 style="margin:0; font-size: 1.8rem; color: #2ecc71;">{api_remain:.1f}</h2>
+            <p style="margin:0; font-size: 0.8rem; color: #e74c3c;">-{api_used:.1f} 已耗</p>
+        </div>
+        <div style="flex: 1; border-left: 1px solid rgba(128,128,128,0.1); padding-left: 20px;">
+            <p style="margin:0; font-size: 0.9rem; opacity: 0.7;">接口心跳延迟</p>
+            <h2 style="margin:0; font-size: 1.8rem;">24ms</h2>
+            <p style="margin:0; font-size: 0.8rem; color: #2ecc71;">-2ms 极速</p>
+        </div>
+    </div>
+    """
+
+    # 3. 将所有内容打包成一个不间断的字符串输出
+    status_card = (
+        f"<div style='{card_style}'>"
+        f"<h2 style='margin-top:0;'>💎 API 引擎与额度追踪</h2>"
+        f"<p style='opacity:0.7;'>实时监控核心算力池与模块健康度</p>"
+        f"<hr style='border:0; border-top:1px solid rgba(128,128,128,0.1); margin:1.5rem 0;'>"
+        f"<h4>✂️ Remove.bg 算力池</h4>"
+        f"{metrics_html}" # 插入模拟的指标
+        f"<div style='margin-top: 1.5rem;'>"
+        f"<p style='margin-bottom: 5px; font-size: 0.9rem;'>🚀 算力消耗水位线: {consume_ratio*100:.1f}%</p>"
+        f"<div style='width: 100%; background-color: rgba(128,128,128,0.1); border-radius: 10px; height: 10px; overflow: hidden;'>"
+        f"<div style='width: {consume_ratio*100}%; background-color: {HIGHLIGHT_COLOR}; height: 100%;'></div>"
+        f"</div>"
+        f"</div>"
+        f"</div>"
+    )
+    st.markdown(status_card, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    st.subheader("🔗 官方入口")
-    # ✅ 这里的引号也是成对的
-    st.markdown("""
-    - [Remove.bg 控制台](https://www.remove.bg/dashboard)
-    - [Streamlit 部署文档](https://docs.streamlit.io/)
-    - [Pillow 官方手册](https://pillow.readthedocs.io/)
-    """)
+
+    # --- 1. 技术看板卡片 (包含核心库与官方入口) ---
+    # 我们把表格里的数据直接用 HTML 列表或小型表格的形式包在卡片里
+    
+    libraries_html = ""
+    tech_data = [
+        {"name": "Streamlit", "use": "前端 UI 框架", "status": "Running"},
+        {"name": "Pillow (PIL)", "use": "图像渲染引擎", "status": "Optimized"},
+        {"name": "OpenCV", "use": "AI 视觉识别", "status": "Active"},
+        {"name": "NumPy", "use": "矩阵运算", "status": "Stable"}
+    ]
+    
+    for item in tech_data:
+        libraries_html += (
+            f"<div style='display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;'>"
+            f"  <span style='font-weight: bold;'>{item['name']}</span>"
+            f"  <span style='opacity: 0.7;'>{item['use']}</span>"
+            f"  <span style='color: #2ecc71;'>{item['status']}</span>"
+            f"</div>"
+        )
+
+# 2. 核心模块健康度卡片 (独立卡片)
+    tech_card = (
+        f"<div style='{card_style}'>"
+        f"<h4>🔧 核心模块健康度</h4>"
+        f"<div style='margin-top: 1rem;'>"
+        f"<div style='margin-bottom: 1.2rem;'>"
+        f"  <span style='color: #2ecc71;'>🟢 Healthy</span> <b>Main Rendering Engine</b> (v13.0)<br>"
+        f"  <small style='opacity: 0.6; margin-left: 1.5rem;'>作用：负责将多层图像（底图、文字、遮罩）进行亚像素级合成，输出高清海报。</small>"
+        f"</div>"
+        f"<div style='margin-bottom: 1.2rem;'>"
+        f"  <span style='color: #2ecc71;'>🟢 Healthy</span> <b>HaarCascade Face Topology</b><br>"
+        f"  <small style='opacity: 0.6; margin-left: 1.5rem;'>作用：基于 AI 视觉识别画面人脸，自动计算视角跨度，确保不切头、不遮脸。</small>"
+        f"</div>"
+        f"<div style='margin-bottom: 0.5rem;'>"
+        f"  <span style='color: #2ecc71;'>🟢 Healthy</span> <b>Luminance Auto-Contrast</b><br>"
+        f"  <small style='opacity: 0.6; margin-left: 1.5rem;'>作用：实时扫描文本区域明度，自动切换黑白配色，保证阅读效果。</small>"
+        f"</div>"
+        f"</div></div>"
+    )
+    st.markdown(tech_card, unsafe_allow_html=True)
+
+    # 3. 技术栈底座卡片 (独立卡片，不含入口)
+    libraries_html = ""
+    tech_data = [
+        {"name": "Streamlit", "use": "前端 UI 框架", "status": "Running"},
+        {"name": "Pillow (PIL)", "use": "图像渲染引擎", "status": "Optimized"},
+        {"name": "OpenCV", "use": "AI 视觉识别", "status": "Active"},
+        {"name": "NumPy", "use": "矩阵运算", "status": "Stable"}
+    ]
+    for item in tech_data:
+        libraries_html += (
+            f"<div style='display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;'>"
+            f"  <span style='font-weight: bold;'>{item['name']}</span>"
+            f"  <span style='opacity: 0.7;'>{item['use']}</span>"
+            f"  <span style='color: #2ecc71;'>{item['status']}</span>"
+            f"</div>"
+        )
+
+    base_tech_card = (
+        f"<div style='{card_style}'>"
+        f"<h4>🛠️ 技术栈底座</h4>"
+        f"<div style='margin-top: 1.2rem;'>"
+        f"{libraries_html}"
+        f"</div></div>"
+    )
+    st.markdown(base_tech_card, unsafe_allow_html=True)
+
+    # 4. 官方入口 (保留上一版的高级横向排版，但不包裹在卡片内)
+    st.markdown("#### 🔗 官方入口")
+    
+    links_html = f"""
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.95rem; margin-top: 10px;">
+        <a href="https://www.remove.bg/dashboard" target="_blank" style="color: #5b5b5b; text-decoration: none; font-weight: 500;">
+            <span>🔗</span> Remove.bg 控制台
+        </a>
+        <a href="https://docs.streamlit.io/" target="_blank" style="color: #5b5b5b; text-decoration: none; font-weight: 500;">
+            <span>🔗</span> Streamlit 部署文档
+        </a>
+        <a href="https://pillow.readthedocs.io/" target="_blank" style="color: #5b5b5b; text-decoration: none; font-weight: 500;">
+            <span>🔗</span> Pillow 官方手册
+        </a>
+    </div>
+    """
+    st.markdown(links_html, unsafe_allow_html=True)
+
+    # 5. 底部版权
+    st.markdown("<div style='margin-top: 4rem; text-align: center; opacity: 0.2; font-size: 0.8rem;'>© 2026 Dean Design Studio | Built with Passion</div>", unsafe_allow_html=True)

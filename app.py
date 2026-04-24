@@ -42,7 +42,7 @@ st.markdown(f"""
     .block-container {{ padding-top: 1.5rem !important; }}
     header {{ visibility: hidden; height: 0px !important; }}
 
-    /* 4. 按钮主题色 (保持你的 HIGHLIGHT_COLOR) */
+    /* 4. 按钮主题色 (保持 HIGHLIGHT_COLOR) */
     div.stButton > button, div.stDownloadButton > button {{
         background-color: {HIGHLIGHT_COLOR} !important; 
         color: white !important;
@@ -57,7 +57,7 @@ st.markdown(f"""
     </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 强壮的 Session State 初始化 ---
+# --- 2. Session State 初始化 ---
 if 'settings' not in st.session_state:
     st.session_state.settings = {
         'canvas_w': 880, 'canvas_h': 444,
@@ -428,15 +428,15 @@ with tabs[0]:
             f"<div style='text-align: center; padding: 4rem 2rem; background-color: {card_bg}; "
             f"border-radius: 20px; border: 1px solid rgba(128,128,128,0.1); "
             f"box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin: 1rem 0; color: {text_c};'>"
-            f"<h1 style='font-size: 2.5rem; margin-bottom: 5px;'>✨ MyPosterAgent</h1>"
-            f"<p style='opacity: 0.8; font-size: 1.1rem;'>主理人：<b>Dean</b> | 当前版本：{VERSION}</p>"
+            f"<h1 style='font-size: 2.5rem; margin-bottom: 5px;'>✨ 影视海报转异形弹窗Agent</h1>"
+            f"<p style='opacity: 0.8; font-size: 1.1rem;'>平台开发：<b>Dean</b> | 当前版本：{VERSION}</p>"
             f"<hr style='border: 0; border-top: 1px solid rgba(128,128,128,0.1); margin: 2rem 0;'>"
             f"<div style='max-width: 400px; margin: 0 auto; text-align: left;'>"
-            f"<p>🚀 <b>这是你的专属异形海报工作站：</b></p>"
+            f"<p>🚀 <b>工作站简介：</b></p>"
             f"<ul style='opacity: 0.9; font-size: 0.95rem; line-height: 1.8;'>"
-            f"<li>已接入 AI 面部追踪与智能对比度取色</li>"
-            f"<li>支持 Remove.bg 动态破框视觉效果</li>"
-            f"<li>自定义字体持久化缓存系统</li>"
+            f"<li>已接入 AI 面部追踪与智能取色系统</li>"
+            f"<li>支持 Remove.bg 智能人物破框视觉效果</li>"
+            f"<li>新增自定义字体持久化缓存系统</li>"
             f"</ul></div>"
             f"<div style='margin-top: 2.5rem; padding: 1rem 2rem; background-color: rgba(255, 75, 75, 0.1); "
             f"border-radius: 12px; border: 1px solid rgba(255, 75, 75, 0.2); display: inline-block;'>"

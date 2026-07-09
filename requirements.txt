@@ -3,4 +3,4 @@ pillow
 requests
 numpy
 matplotlib
-opencv-python-headless
+opencv-python

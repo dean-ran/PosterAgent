@@ -1,4 +1,6 @@
 streamlit
-Pillow
-opencv-python-headless
+pillow
+requests
+numpy
 matplotlib
+opencv-python-headless

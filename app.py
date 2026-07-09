@@ -4,19 +4,6 @@ import requests
 import streamlit as st
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops, ImageStat, ImageOps
-import matplotlib.font_manager as fm
-import json
-import base64
-import time 
-
-# ==========================================
-import os
-import io
-import requests
-import streamlit as st
-import numpy as np
-import cv2
-from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops, ImageStat, ImageOps
 import json
 import base64
 import time 
